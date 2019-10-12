@@ -9,13 +9,18 @@ using System.Security.Claims;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Http.Features.Authentication;
 using Microsoft.AspNetCore.Authentication;
+using Newtonsoft.Json;
+using HR.DataAccess.Models;
+using HR.BusinessLogic.Interfaces;
 
 namespace WebApp_OpenIDConnect_DotNet.Controllers
 {
     public class SessionController : Controller
     {
-        public SessionController(IOptions<AzureAdB2COptions> b2cOptions)
+        public IUserService<AppUsers> _userService;
+        public SessionController(IOptions<AzureAdB2COptions> b2cOptions, IUserService<AppUsers> userService)
         {
+            _userService = userService;
             AzureAdB2COptions = b2cOptions.Value;
         }
 
@@ -24,12 +29,30 @@ namespace WebApp_OpenIDConnect_DotNet.Controllers
         [HttpGet]
         public IActionResult SignIn()
         {
-            var redirectUrl = Url.Action(nameof(HomeController.Index), "Home");
+            var redirectUrl = Url.Action(nameof(SessionController.postUserClaims), "Session");
             return Challenge(
                 new AuthenticationProperties { RedirectUri = redirectUrl },
                 OpenIdConnectDefaults.AuthenticationScheme);
         }
+        [HttpGet]
+        public IActionResult postUserClaims()
+        {
+            AppUsers user = new AppUsers();
+            foreach (var v in User.Claims)
+            {
+                if (v.Type.Contains("email"))
+                    user.Email = v.Value;
+                if (v.Type.Contains("givenname"))
+                    user.Name = v.Value;
+                if (v.Type.Contains("surname"))
+                    user.Lastname = v.Value;
+            }
 
+            user.GetRole = Roles.User;
+            if (_userService.Add(user) != null) _userService.Save();
+
+            return Redirect(Url.Action(nameof(HomeController.Index), "Home"));
+        }
         [HttpGet]
         public IActionResult ResetPassword()
         {

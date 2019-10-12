@@ -5,7 +5,7 @@ using HR.DataAccess.Models;
 
 namespace HR.BusinessLogic.Interfaces
 {
-    interface IUserService<T> where T : Entity
+   public interface IUserService<T> where T : Entity
     {
         T FindById(int id);
         IEnumerable<T> SelectAll();
@@ -13,5 +13,6 @@ namespace HR.BusinessLogic.Interfaces
         void Update(T entity);
         void Delete(T entity);
         void DeleteById(int id);
+        void Save();
     }
 }

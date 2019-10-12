@@ -5,7 +5,7 @@ using HR.DataAccess.Models;
 
 namespace HR.BusinessLogic.Interfaces
 {
-    interface IOfferService<T> where T: Entity
+   public interface IOfferService<T> where T: Entity
     {
         T FindById(int id);
         IEnumerable<T> SelectAll();

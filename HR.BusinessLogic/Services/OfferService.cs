@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 namespace HR.BusinessLogic.Services
 {
 
-    class OfferService : Interfaces.IOfferService<AppOffers>
+    public class OfferService : Interfaces.IOfferService<AppOffers>
     {
         HR_ProjectContext _context;
 
@@ -40,8 +40,8 @@ namespace HR.BusinessLogic.Services
 
         public IEnumerable<AppOffers> SelectAll()
         {
-            var c= (from n in _context.AppOffers
-                    select n).AsNoTracking();
+            var c = (from n in _context.AppOffers
+                     select n).AsNoTracking();
             return c;
         }
 

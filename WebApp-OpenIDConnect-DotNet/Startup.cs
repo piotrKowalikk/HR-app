@@ -1,4 +1,9 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using HR.BusinessLogic.Interfaces;
+using HR.DataAccess.Models;
+
+using HR.BusinessLogic.Services;
+
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -7,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebApp_OpenIDConnect_DotNet
 {
@@ -30,6 +36,14 @@ namespace WebApp_OpenIDConnect_DotNet
         {
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
+            services.AddDbContext<HR_ProjectContext>(options =>
+    options.UseSqlServer(
+        Configuration.GetConnectionString("DefaultConnection")
+    ));
+
+            services.AddScoped<IUserService<AppUsers>, UserService>();
+            services.AddScoped<IOfferService<AppOffers>, OfferService>();
+
             services.AddAuthentication(sharedOptions =>
             {
                 sharedOptions.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -40,7 +54,7 @@ namespace WebApp_OpenIDConnect_DotNet
 
             // Add framework services.
             services.AddMvc();
-            
+
             // Adds a default in-memory implementation of IDistributedCache.
             services.AddDistributedMemoryCache();
             services.AddSession(options =>
@@ -50,7 +64,7 @@ namespace WebApp_OpenIDConnect_DotNet
                 options.Cookie.IsEssential = true;
             });
 
-            
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -71,7 +85,7 @@ namespace WebApp_OpenIDConnect_DotNet
             }
 
             app.UseStaticFiles();
-            
+
             app.UseSession();
 
             app.UseAuthentication();

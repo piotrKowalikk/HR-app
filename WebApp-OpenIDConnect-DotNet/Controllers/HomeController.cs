@@ -20,17 +20,25 @@ namespace WebApp_OpenIDConnect_DotNet.Controllers
         AzureAdB2COptions AzureAdB2COptions;
         public HomeController(IOptions<AzureAdB2COptions> azureAdB2COptions)
         {
+
             AzureAdB2COptions = azureAdB2COptions.Value;
         }
 
         public IActionResult Index()
         {
+            var v = base.User;
+            return View();
+        }
+        public IActionResult GetAuth(object rsl)
+        {
+            var v = base.User;
             return View();
         }
 
         [Authorize]
         public IActionResult About()
         {
+            var v = base.User;
             ViewData["Message"] = String.Format("Claims available for the user {0}", (User.FindFirst("name")?.Value));
             return View();
         }
@@ -38,6 +46,7 @@ namespace WebApp_OpenIDConnect_DotNet.Controllers
         [Authorize]
         public async Task<IActionResult> Api()
         {
+            var v = base.User;
             string responseString = "";
             try
             {
