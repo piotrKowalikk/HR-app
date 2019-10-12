@@ -6,6 +6,13 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4F492237-55A2-48AB-A6F1-2BBAD11D5917}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web", "WebApp-OpenIDConnect-DotNet\Web.csproj", "{6ECB453C-AEA3-44AF-8185-059FBAC7B56C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0D019FC6-E76C-44B9-A712-1AE9354812BB} = {0D019FC6-E76C-44B9-A712-1AE9354812BB}
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HR.DataAccess", "HR.DataAccess\HR.DataAccess.csproj", "{0D019FC6-E76C-44B9-A712-1AE9354812BB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HR.BusinessLogic", "HR.BusinessLogic\HR.BusinessLogic.csproj", "{B0E6E3E0-6FD6-4939-B8E2-EEF4144E73C7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,6 +24,14 @@ Global
 		{6ECB453C-AEA3-44AF-8185-059FBAC7B56C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6ECB453C-AEA3-44AF-8185-059FBAC7B56C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6ECB453C-AEA3-44AF-8185-059FBAC7B56C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D019FC6-E76C-44B9-A712-1AE9354812BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D019FC6-E76C-44B9-A712-1AE9354812BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D019FC6-E76C-44B9-A712-1AE9354812BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D019FC6-E76C-44B9-A712-1AE9354812BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0E6E3E0-6FD6-4939-B8E2-EEF4144E73C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0E6E3E0-6FD6-4939-B8E2-EEF4144E73C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0E6E3E0-6FD6-4939-B8E2-EEF4144E73C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0E6E3E0-6FD6-4939-B8E2-EEF4144E73C7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
