@@ -91,6 +91,8 @@ namespace HR.DataAccess.Migrations
                         .HasColumnName("name")
                         .HasMaxLength(20);
 
+                    b.Property<string>("NameIdentifier");
+
                     b.Property<int>("RoleId")
                         .HasColumnName("roleId");
 

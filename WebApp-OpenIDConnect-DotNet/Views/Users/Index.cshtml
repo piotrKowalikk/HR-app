@@ -43,7 +43,7 @@
                 @Html.DisplayFor(modelItem => item.GetRole)
             </td>
             <td>
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-controller="API" asp-action="DeleteInB2C" asp-route-id="@item.id">Delete</a>
             </td>
         </tr>
 }

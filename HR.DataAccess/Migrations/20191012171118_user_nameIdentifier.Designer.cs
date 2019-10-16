@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HR.DataAccess.Migrations
 {
     [DbContext(typeof(HR_ProjectContext))]
-    [Migration("20191011061848_init")]
-    partial class init
+    [Migration("20191012171118_user_nameIdentifier")]
+    partial class user_nameIdentifier
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -92,6 +92,8 @@ namespace HR.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnName("name")
                         .HasMaxLength(20);
+
+                    b.Property<string>("NameIdentifier");
 
                     b.Property<int>("RoleId")
                         .HasColumnName("roleId");
