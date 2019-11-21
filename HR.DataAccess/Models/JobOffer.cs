@@ -3,7 +3,7 @@ using System.Collections.Generic;
 namespace HR.DataAccess.Models
 
 {
-    public partial class AppOffers : Entity
+    public class JobOffer : Entity
     {
         public int Id { get; set; }
         public string Company { get; set; }
@@ -17,6 +17,6 @@ namespace HR.DataAccess.Models
         public int UserPosting { get; set; }
         public int? UserApply { get; set; }
 
-        public virtual DctOfferStatuses IsActiveNavigation { get; set; }
+        public virtual OfferStatus IsActiveNavigation { get; set; }
     }
 }

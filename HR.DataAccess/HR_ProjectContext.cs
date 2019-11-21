@@ -20,19 +20,19 @@ namespace HR.DataAccess.Models
                 optionsBuilder.UseSqlServer("Data Source=WINDELL-MDP3TD6;Initial Catalog=HR_Project;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
             }
         }
-        public virtual DbSet<AppOffers> AppOffers { get; set; }
-        public virtual DbSet<AppUsers> AppUsers { get; set; }
-        public virtual DbSet<DctOfferStatuses> DctOfferStatuses { get; set; }
-        public virtual DbSet<DctRoles> DctRoles { get; set; }
+        public virtual DbSet<JobOffer> Offers { get; set; }
+        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<OfferStatus> OfferStatutes { get; set; }
+        public virtual DbSet<Role> Roles { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("ProductVersion", "2.2.1-servicing-10028");
 
-            modelBuilder.Entity<AppOffers>(entity =>
+            modelBuilder.Entity<JobOffer>(entity =>
             {
-                entity.ToTable("APP_OFFERS");
+                entity.ToTable("APP_JOBOFFERS");
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
@@ -80,7 +80,7 @@ namespace HR.DataAccess.Models
                     .HasConstraintName("FK_APP_OFFERS_DCT_OFFER_STATUSES");
             });
 
-            modelBuilder.Entity<AppUsers>(entity =>
+            modelBuilder.Entity<User>(entity =>
             {
                 entity.ToTable("APP_USERS");
 
@@ -112,7 +112,7 @@ namespace HR.DataAccess.Models
                     .HasConstraintName("FK_APP_USERS_DCT_ROLES");
             });
 
-            modelBuilder.Entity<DctOfferStatuses>(entity =>
+            modelBuilder.Entity<OfferStatus>(entity =>
             {
                 entity.ToTable("DCT_OFFER_STATUSES");
 
@@ -126,7 +126,7 @@ namespace HR.DataAccess.Models
                     .HasMaxLength(10);
             });
 
-            modelBuilder.Entity<DctRoles>(entity =>
+            modelBuilder.Entity<Role>(entity =>
             {
                 entity.ToTable("DCT_ROLES");
 

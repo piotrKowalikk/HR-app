@@ -41,8 +41,8 @@ namespace WebApp_OpenIDConnect_DotNet
         Configuration.GetConnectionString("DefaultConnection")
     ));
 
-            services.AddScoped<IUserService<AppUsers>, UserService>();
-            services.AddScoped<IOfferService<AppOffers>, OfferService>();
+            services.AddScoped<IUserService<User>, UserService>();
+            services.AddScoped<IOfferService<JobOffer>, OfferService>();
 
             services.AddAuthentication(sharedOptions =>
             {

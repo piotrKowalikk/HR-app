@@ -10,8 +10,8 @@ namespace Web.Controllers
 {
     public class UsersController : Controller
     {
-        IUserService<AppUsers> userService;
-        public UsersController(IUserService<AppUsers> service)
+        IUserService<User> userService;
+        public UsersController(IUserService<User> service)
         {
             userService= service;
         }

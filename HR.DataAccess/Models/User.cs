@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HR.DataAccess.Models
 {
-    public partial class AppUsers :Entity
+    public partial class User :Entity
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -24,7 +24,7 @@ namespace HR.DataAccess.Models
                 RoleId = (int)value;
             }
         }
-        public virtual DctRoles Role { get; set; }
+        public virtual Role Role { get; set; }
     }
 
     public enum Roles

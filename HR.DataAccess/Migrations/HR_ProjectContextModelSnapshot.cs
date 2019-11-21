@@ -19,7 +19,7 @@ namespace HR.DataAccess.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("HR.DataAccess.Models.AppOffers", b =>
+            modelBuilder.Entity("HR.DataAccess.Models.JobOffer", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnName("id");
@@ -68,12 +68,42 @@ namespace HR.DataAccess.Migrations
 
                     b.HasIndex("IsActive");
 
-                    b.ToTable("APP_OFFERS");
+                    b.ToTable("APP_JOBOFFERS");
                 });
 
-            modelBuilder.Entity("HR.DataAccess.Models.AppUsers", b =>
+            modelBuilder.Entity("HR.DataAccess.Models.OfferStatus", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name")
+                        .HasMaxLength(10);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DCT_OFFER_STATUSES");
+                });
+
+            modelBuilder.Entity("HR.DataAccess.Models.Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnName("id");
+
+                    b.Property<string>("RoleName")
+                        .IsRequired()
+                        .HasColumnName("roleName")
+                        .HasMaxLength(20);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DCT_ROLES");
+                });
+
+            modelBuilder.Entity("HR.DataAccess.Models.User", b =>
+                {
+                    b.Property<int>("Id")
                         .HasColumnName("id");
 
                     b.Property<string>("Email")
@@ -103,47 +133,17 @@ namespace HR.DataAccess.Migrations
                     b.ToTable("APP_USERS");
                 });
 
-            modelBuilder.Entity("HR.DataAccess.Models.DctOfferStatuses", b =>
+            modelBuilder.Entity("HR.DataAccess.Models.JobOffer", b =>
                 {
-                    b.Property<int>("Id")
-                        .HasColumnName("id");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnName("name")
-                        .HasMaxLength(10);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("DCT_OFFER_STATUSES");
-                });
-
-            modelBuilder.Entity("HR.DataAccess.Models.DctRoles", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnName("id");
-
-                    b.Property<string>("RoleName")
-                        .IsRequired()
-                        .HasColumnName("roleName")
-                        .HasMaxLength(20);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("DCT_ROLES");
-                });
-
-            modelBuilder.Entity("HR.DataAccess.Models.AppOffers", b =>
-                {
-                    b.HasOne("HR.DataAccess.Models.DctOfferStatuses", "IsActiveNavigation")
+                    b.HasOne("HR.DataAccess.Models.OfferStatus", "IsActiveNavigation")
                         .WithMany("AppOffers")
                         .HasForeignKey("IsActive")
                         .HasConstraintName("FK_APP_OFFERS_DCT_OFFER_STATUSES");
                 });
 
-            modelBuilder.Entity("HR.DataAccess.Models.AppUsers", b =>
+            modelBuilder.Entity("HR.DataAccess.Models.User", b =>
                 {
-                    b.HasOne("HR.DataAccess.Models.DctRoles", "Role")
+                    b.HasOne("HR.DataAccess.Models.Role", "Role")
                         .WithMany("AppUsers")
                         .HasForeignKey("RoleId")
                         .HasConstraintName("FK_APP_USERS_DCT_ROLES");

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 namespace HR.BusinessLogic.Services
 {
 
-    public class OfferService : Interfaces.IOfferService<AppOffers>
+    public class OfferService : Interfaces.IOfferService<JobOffer>
     {
         HR_ProjectContext _context;
 
@@ -17,15 +17,15 @@ namespace HR.BusinessLogic.Services
             this._context = context;
         }
 
-        public AppOffers Add(AppOffers entity)
+        public JobOffer Add(JobOffer entity)
         {
             _context.Add(entity);
             return entity;
         }
 
-        public void Delete(AppOffers entity)
+        public void Delete(JobOffer entity)
         {
-            _context.Remove<AppOffers>(entity);
+            _context.Remove<JobOffer>(entity);
         }
 
         public void DeleteById(int id)
@@ -33,19 +33,19 @@ namespace HR.BusinessLogic.Services
             throw new NotImplementedException();
         }
 
-        public AppOffers FindById(int id)
+        public JobOffer FindById(int id)
         {
-            return _context.AppOffers.Find(id);
+            return _context.Offers.Find(id);
         }
 
-        public IEnumerable<AppOffers> SelectAll()
+        public IEnumerable<JobOffer> SelectAll()
         {
-            var c = (from n in _context.AppOffers
+            var c = (from n in _context.Offers
                      select n).AsNoTracking();
             return c;
         }
 
-        public void Update(AppOffers entity)
+        public void Update(JobOffer entity)
         {
             _context.Update(entity);
         }

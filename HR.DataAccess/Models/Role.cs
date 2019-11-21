@@ -3,16 +3,16 @@ using System.Collections.Generic;
 
 namespace HR.DataAccess.Models
 {
-    public partial class DctRoles
+    public partial class Role
     {
-        public DctRoles()
+        public Role()
         {
-            AppUsers = new HashSet<AppUsers>();
+            AppUsers = new HashSet<User>();
         }
 
         public int Id { get; set; }
         public string RoleName { get; set; }
 
-        public virtual ICollection<AppUsers> AppUsers { get; set; }
+        public virtual ICollection<User> AppUsers { get; set; }
     }
 }

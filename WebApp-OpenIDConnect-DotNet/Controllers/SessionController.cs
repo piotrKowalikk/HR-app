@@ -17,8 +17,8 @@ namespace WebApp_OpenIDConnect_DotNet.Controllers
 {
     public class SessionController : Controller
     {
-        public IUserService<AppUsers> _userService;
-        public SessionController(IOptions<AzureAdB2COptions> b2cOptions, IUserService<AppUsers> userService)
+        public IUserService<User> _userService;
+        public SessionController(IOptions<AzureAdB2COptions> b2cOptions, IUserService<User> userService)
         {
             _userService = userService;
             AzureAdB2COptions = b2cOptions.Value;
@@ -37,7 +37,7 @@ namespace WebApp_OpenIDConnect_DotNet.Controllers
         [HttpGet]
         public IActionResult postUserClaims()
         {
-            AppUsers user = new AppUsers();
+            User user = new User();
             foreach (var v in User.Claims)
             {
                 if (v.Type.Contains("email"))
