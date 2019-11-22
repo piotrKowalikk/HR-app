@@ -22,7 +22,6 @@ namespace HR.DataAccess.Models
         }
         public virtual DbSet<JobOffer> Offers { get; set; }
         public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<OfferStatus> OfferStatutes { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
 
 
@@ -73,11 +72,7 @@ namespace HR.DataAccess.Models
 
                 entity.Property(e => e.UserPosting).HasColumnName("userPosting");
 
-                entity.HasOne(d => d.IsActiveNavigation)
-                    .WithMany(p => p.AppOffers)
-                    .HasForeignKey(d => d.IsActive)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_APP_OFFERS_DCT_OFFER_STATUSES");
+
             });
 
             modelBuilder.Entity<User>(entity =>
@@ -112,19 +107,7 @@ namespace HR.DataAccess.Models
                     .HasConstraintName("FK_APP_USERS_DCT_ROLES");
             });
 
-            modelBuilder.Entity<OfferStatus>(entity =>
-            {
-                entity.ToTable("DCT_OFFER_STATUSES");
 
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .ValueGeneratedNever();
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasColumnName("name")
-                    .HasMaxLength(10);
-            });
 
             modelBuilder.Entity<Role>(entity =>
             {

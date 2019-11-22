@@ -4,14 +4,16 @@ using HR.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HR.DataAccess.Migrations
 {
     [DbContext(typeof(HR_ProjectContext))]
-    partial class HR_ProjectContextModelSnapshot : ModelSnapshot
+    [Migration("20191121210520_job offers user posting types")]
+    partial class joboffersuserpostingtypes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

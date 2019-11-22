@@ -11,12 +11,11 @@ namespace HR.DataAccess.Models
         public string Description { get; set; }
         public int? SalaryFrom { get; set; }
         public int? SalaryTo { get; set; }
-        public int IsActive { get; set; }
+        public bool IsActive { get; set; }
         public DateTime DatePosted { get; set; }
         public DateTime DateExpiration { get; set; }
-        public int UserPosting { get; set; }
-        public int? UserApply { get; set; }
+        public string UserPosting { get; set; }
+        public string UserApply { get; set; }
 
-        public virtual OfferStatus IsActiveNavigation { get; set; }
     }
 }
