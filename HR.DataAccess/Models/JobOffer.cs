@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace HR.DataAccess.Models
 
 {
     public class JobOffer : Entity
     {
+        [Key]
         public int Id { get; set; }
-        public string Company { get; set; }
+        public int CompanyId { get; set; }
         public string Position { get; set; }
         public string Description { get; set; }
         public int? SalaryFrom { get; set; }
@@ -16,6 +20,7 @@ namespace HR.DataAccess.Models
         public DateTime DateExpiration { get; set; }
         public string UserPosting { get; set; }
         public string UserApply { get; set; }
-
+        public virtual Company Company { get; set; }
+        public ICollection<JobApplication> JobApplications { get; set; } 
     }
 }

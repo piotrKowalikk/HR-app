@@ -6,15 +6,18 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HR.DataAccess.Models;
+using HR.BusinessLogic.Interfaces;
 
 namespace Web.Controllers
 {
     public class JobOffersController : Controller
     {
         private readonly HR_ProjectContext _context;
+        private readonly IOfferService<JobOffer> offerService;
 
-        public JobOffersController(HR_ProjectContext context)
+        public JobOffersController(HR_ProjectContext context, IOfferService<JobOffer> offerService)
         {
+            this.offerService = offerService;
             _context = context;
         }
 

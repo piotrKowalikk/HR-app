@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace HR.DataAccess.Models
 {
@@ -9,7 +10,7 @@ namespace HR.DataAccess.Models
         {
             AppUsers = new HashSet<User>();
         }
-
+        [Key]
         public int Id { get; set; }
         public string RoleName { get; set; }
 

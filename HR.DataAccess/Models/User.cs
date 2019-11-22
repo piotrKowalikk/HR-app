@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HR.DataAccess.Models
 {
-    public partial class User :Entity
+    public partial class User : Entity
     {
+        [Key]
         public int Id { get; set; }
         public string Name { get; set; }
         public string Lastname { get; set; }
@@ -25,6 +27,8 @@ namespace HR.DataAccess.Models
             }
         }
         public virtual Role Role { get; set; }
+        public ICollection<JobApplication> JobApplications;
+        public ICollection<JobOffer> JobOffers;
     }
 
     public enum Roles
