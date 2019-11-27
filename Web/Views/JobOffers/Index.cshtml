@@ -39,9 +39,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.UserPosting)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserApply)
-            </th>
             <th></th>
         </tr>
     </thead>
@@ -75,9 +72,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.UserPosting)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserApply)
-            </td>
+ 
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |

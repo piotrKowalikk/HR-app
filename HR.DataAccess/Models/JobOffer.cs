@@ -19,7 +19,6 @@ namespace HR.DataAccess.Models
         public DateTime DatePosted { get; set; }
         public DateTime DateExpiration { get; set; }
         public string UserPosting { get; set; }
-        public string UserApply { get; set; }
         public virtual Company Company { get; set; }
         public ICollection<JobApplication> JobApplications { get; set; } 
     }
