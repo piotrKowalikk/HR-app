@@ -19,6 +19,5 @@ namespace HR.DataAccess.Models
         public string CVurl { get; set; }
         public virtual User User { get; set; }
         public virtual JobOffer JobOffer { get; set; }
-
     }
 }

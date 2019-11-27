@@ -17,16 +17,26 @@ namespace Web.Controllers
     {
         AzureAdB2COptions AzureAdB2COptions;
         IUserService<User> userService;
+        private readonly HR_ProjectContext _context;
 
-        public APIController(IOptions<AzureAdB2COptions> azureAdB2COptions, IUserService<User> uService, IOfferService<JobOffer> oService)
+        public APIController(IOptions<AzureAdB2COptions> azureAdB2COptions, IUserService<User> uService, IOfferService<JobOffer> oService, HR_ProjectContext context)
         {
             AzureAdB2COptions = azureAdB2COptions.Value;
             userService = uService;
+            _context = context;
+
         }
 
         public IActionResult Index()
         {
             return View();
+        }
+
+        public JsonResult GetCompanies()
+        {
+            var companies = _context.Companies.Select(x=>x);
+            var json = Json(companies);
+            return json;
         }
 
         public async void DeleteInB2C(int id)//receives null

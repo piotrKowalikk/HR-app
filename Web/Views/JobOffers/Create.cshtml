@@ -22,13 +22,9 @@
                 </div>
                 <div class="form-group col-sm-6">
                     <label class="control-label">Company</label>
-                    <select class="form-control" asp-for="CompanyId" id="companyId">
-                        <option value="0">Wybierz firmę</option>
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
+                    <select class="form-control" asp-for="CompanyId" id="companiesSelect">
+                        <option value="0">Select company</option>
+
                     </select>
                 </div>
 
@@ -79,5 +75,29 @@
 </div>
 
 @section Scripts {
+
+<script>
+    $(document).ready(() => {
+        loadCompanies()
+    });
+    function loadCompanies(url) {
+        console.log('@Url.Action("GetCompanies", "API")');
+        $.ajax({
+            url: '@Url.Action("GetCompanies", "API")',
+            type: "GET",
+            datatype: 'json',
+            success: function (data) {
+                console.log(data)
+                data.forEach(x => {
+                    $('#companiesSelect').append(`<option value="${x.id}"> 
+                                       ${x.name} 
+                                  </option>`);
+                });
+                },
+        });
+    }
+
+
+</script>
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
