@@ -48,6 +48,7 @@ namespace WebApp_OpenIDConnect_DotNet.Controllers
                     user.Lastname = v.Value;
                 if (v.Type.Contains("nameidentifier"))
                     user.NameIdentifier = v.Value;
+                user.RoleId = (int)Roles.HRUser;
             }
 
             user.GetRole = Roles.User;

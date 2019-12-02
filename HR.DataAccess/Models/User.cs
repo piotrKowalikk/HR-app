@@ -33,8 +33,8 @@ namespace HR.DataAccess.Models
 
     public enum Roles
     {
-        User = 1,
-        HRUser = 2,
-        Admin = 3
+        User = 3,
+        HRUser = 4,
+        Admin = 5
     }
 }

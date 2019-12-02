@@ -24,7 +24,7 @@ namespace Web.Controllers
         // GET: JobOffers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Offers.ToListAsync());
+            return View(await _context.Offers.Include(x=>x.Company).ToListAsync());
         }
 
         // GET: JobOffers/Details/5
@@ -56,7 +56,7 @@ namespace Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Company,Position,Description,SalaryFrom,SalaryTo,IsActive,DatePosted,DateExpiration,UserPosting,UserApply")] JobOffer jobOffer)
+        public async Task<IActionResult> Create([Bind("Id,CompanyId,Position,Description,SalaryFrom,SalaryTo,IsActive,DatePosted,DateExpiration,UserPosting,UserApply")] JobOffer jobOffer)
         {
             if (ModelState.IsValid)
             {
