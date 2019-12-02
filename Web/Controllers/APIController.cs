@@ -32,11 +32,30 @@ namespace Web.Controllers
             return View();
         }
 
+        [HttpGet]
         public JsonResult GetCompanies()
         {
             var companies = _context.Companies.Select(x=>x);
             var json = Json(companies);
             return json;
+        }
+
+        [HttpGet]
+        public JsonResult GetRoles()
+        {
+            var roles = _context.Roles.Select(x => x);
+            var json = Json(roles);
+            return json;
+        }
+
+        [HttpPost]
+        public JsonResult SetUserRole(int userId, int userRole)
+        {
+            var user = _context.Users.First(x => x.Id == userId);
+            user.RoleId = userRole;
+            _context.SaveChanges();
+
+            return Json(true);
         }
 
         public async void DeleteInB2C(int id)//receives null
