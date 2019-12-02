@@ -7,12 +7,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace HR.DataAccess.Models
 
 {
+
     public class JobOffer : Entity
     {
         [Key]
         public int Id { get; set; }
 
         [Required]
+        [Range(1,Double.MaxValue,ErrorMessage ="The Company field is required")]
         public int CompanyId { get; set; }
 
         [Required]
@@ -39,7 +41,6 @@ namespace HR.DataAccess.Models
         [DisplayName("Expiration date")]
         public DateTime DateExpiration { get; set; }
 
-        [Required]
         [DisplayName("Posted by")]
         public string UserPosting { get; set; }
 
