@@ -24,7 +24,8 @@ namespace Web.Controllers
         // GET: JobOffers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Offers.Include(x=>x.Company).ToListAsync());
+            var v = await _context.Offers.Include(x => x.Company).ToListAsync();
+            return View(v);
         }
 
         // GET: JobOffers/Details/5
