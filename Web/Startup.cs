@@ -37,9 +37,9 @@ namespace WebApp_OpenIDConnect_DotNet
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddDbContext<HR_ProjectContext>(options =>
-    options.UseSqlServer(
-        Configuration.GetConnectionString("DefaultConnection")
-    ));
+            options.UseSqlServer(
+            Configuration.GetConnectionString("DefaultConnection")
+            ));
 
             services.AddScoped<IUserService<User>, UserService>();
             services.AddScoped<IOfferService<JobOffer>, OfferService>();
@@ -50,6 +50,7 @@ namespace WebApp_OpenIDConnect_DotNet
                 sharedOptions.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
             })
             .AddAzureAdB2C(options => Configuration.Bind("Authentication:AzureAdB2C", options))
+            
             .AddCookie();
 
             // Add framework services.
@@ -70,9 +71,9 @@ namespace WebApp_OpenIDConnect_DotNet
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddConsole();
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
+            //loggerFactory.AddConsole();
+            //loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            //loggerFactory.AddDebug();
 
             if (env.IsDevelopment())
             {

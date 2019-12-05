@@ -35,6 +35,7 @@ namespace Web.Controllers
         [HttpGet]
         public JsonResult GetCompanies()
         {
+            var user = User;
             var companies = _context.Companies.Select(x=>x);
             var json = Json(companies);
             return json;
