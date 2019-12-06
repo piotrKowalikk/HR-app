@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HR.DataAccess.Models
 {
-    public partial class User : Entity
+    public partial class ApplicationUser : Entity
     {
         [Key]
         public int Id { get; set; }

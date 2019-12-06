@@ -21,7 +21,7 @@ namespace HR.DataAccess.Models
             }
         }
         public virtual DbSet<JobOffer> Offers { get; set; }
-        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<ApplicationUser> Users { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<JobApplication> JobApplications { get; set; }
         public virtual DbSet<Company> Companies { get; set; }
@@ -76,7 +76,7 @@ namespace HR.DataAccess.Models
 
         //    });
 
-        //    modelBuilder.Entity<User>(entity =>
+        //    modelBuilder.Entity<ApplicationUser>(entity =>
         //    {
         //        entity.ToTable("APP_USERS");
 

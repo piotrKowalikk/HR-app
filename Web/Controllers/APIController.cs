@@ -16,10 +16,10 @@ namespace Web.Controllers
     public class APIController : Controller
     {
         AzureAdB2COptions AzureAdB2COptions;
-        IUserService<User> userService;
+        IUserService<ApplicationUser> userService;
         private readonly HR_ProjectContext _context;
 
-        public APIController(IOptions<AzureAdB2COptions> azureAdB2COptions, IUserService<User> uService, IOfferService<JobOffer> oService, HR_ProjectContext context)
+        public APIController(IOptions<AzureAdB2COptions> azureAdB2COptions, IUserService<ApplicationUser> uService, IOfferService<JobOffer> oService, HR_ProjectContext context)
         {
             AzureAdB2COptions = azureAdB2COptions.Value;
             userService = uService;
@@ -61,7 +61,7 @@ namespace Web.Controllers
 
         public async void DeleteInB2C(int id)//receives null
         {
-            User user = userService.FindById(id);
+            ApplicationUser user = userService.FindById(id);
 
             var authContext = new AuthenticationContext("https://login.microsoftonline.com/"+this.AzureAdB2COptions.Tenant);
             var credential = new ClientCredential(this.AzureAdB2COptions.ClientId, this.AzureAdB2COptions.ClientSecret);

@@ -17,7 +17,7 @@ namespace HR.DataAccess.Models
         public string EmailAddress { get; set; }
         public bool ContactAgreement { get; set; }
         public string CVurl { get; set; }
-        public virtual User User { get; set; }
+        public virtual ApplicationUser User { get; set; }
         public virtual JobOffer JobOffer { get; set; }
     }
 }

@@ -8,12 +8,12 @@ namespace HR.DataAccess.Models
     {
         public Role()
         {
-            AppUsers = new HashSet<User>();
+            AppUsers = new HashSet<ApplicationUser>();
         }
         [Key]
         public int Id { get; set; }
         public string RoleName { get; set; }
 
-        public virtual ICollection<User> AppUsers { get; set; }
+        public virtual ICollection<ApplicationUser> AppUsers { get; set; }
     }
 }

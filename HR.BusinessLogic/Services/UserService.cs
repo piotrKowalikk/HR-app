@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HR.BusinessLogic.Services
 {
-   public class UserService : Interfaces.IUserService<User>
+   public class UserService : Interfaces.IUserService<ApplicationUser>
     {
         HR_ProjectContext _context;
         public UserService(HR_ProjectContext context)
@@ -16,7 +16,7 @@ namespace HR.BusinessLogic.Services
             this._context = context;
         }
 
-        public User Add(User entity)
+        public ApplicationUser Add(ApplicationUser entity)
         {
             var v=_context.Users.Where(x => x.Email == entity.Email);
             if (v.FirstOrDefault() != null)
@@ -26,9 +26,9 @@ namespace HR.BusinessLogic.Services
             return entity;
         }
 
-        public void Delete(User entity)
+        public void Delete(ApplicationUser entity)
         {
-            _context.Remove<User>(entity);
+            _context.Remove<ApplicationUser>(entity);
         }
 
         public void DeleteById(int id)
@@ -36,7 +36,7 @@ namespace HR.BusinessLogic.Services
             throw new NotImplementedException();
         }
 
-        public User FindById(int id)
+        public ApplicationUser FindById(int id)
         {
             return _context.Users.Find(id);
         }
@@ -46,14 +46,14 @@ namespace HR.BusinessLogic.Services
             _context.SaveChanges();
         }
 
-        public IEnumerable<User> SelectAll()
+        public IEnumerable<ApplicationUser> SelectAll()
         {
             var c = (from n in _context.Users
                      select n).AsNoTracking();
             return c;
         }
 
-        public void Update(User entity)
+        public void Update(ApplicationUser entity)
         {
             _context.Update(entity);
         }

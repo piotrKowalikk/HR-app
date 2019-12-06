@@ -109,7 +109,7 @@ namespace HR.DataAccess.Migrations
                     b.ToTable("Roles");
                 });
 
-            modelBuilder.Entity("HR.DataAccess.Models.User", b =>
+            modelBuilder.Entity("HR.DataAccess.Models.ApplicationUser", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -139,7 +139,7 @@ namespace HR.DataAccess.Migrations
                         .HasForeignKey("JobOfferId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("HR.DataAccess.Models.User", "User")
+                    b.HasOne("HR.DataAccess.Models.ApplicationUser", "ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -153,7 +153,7 @@ namespace HR.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("HR.DataAccess.Models.User", b =>
+            modelBuilder.Entity("HR.DataAccess.Models.ApplicationUser", b =>
                 {
                     b.HasOne("HR.DataAccess.Models.Role", "Role")
                         .WithMany("AppUsers")
