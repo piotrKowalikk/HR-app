@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HR.DataAccess.Migrations
 {
     [DbContext(typeof(HR_ProjectContext))]
-    [Migration("20191127190029_user apply")]
-    partial class userapply
+    [Migration("20191208193118_simple user table")]
+    partial class simpleusertable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,29 @@ namespace HR.DataAccess.Migrations
                 .HasAnnotation("ProductVersion", "2.2.1-servicing-10028")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("HR.DataAccess.Models.ApplicationUser", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Email");
+
+                    b.Property<string>("Lastname");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("NameIdentifier");
+
+                    b.Property<int>("RoleId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("Users");
+                });
 
             modelBuilder.Entity("HR.DataAccess.Models.Company", b =>
                 {
@@ -81,11 +104,14 @@ namespace HR.DataAccess.Migrations
 
                     b.Property<bool>("IsActive");
 
-                    b.Property<string>("Position");
+                    b.Property<string>("Position")
+                        .IsRequired();
 
-                    b.Property<int?>("SalaryFrom");
+                    b.Property<int?>("SalaryFrom")
+                        .IsRequired();
 
-                    b.Property<int?>("SalaryTo");
+                    b.Property<int?>("SalaryTo")
+                        .IsRequired();
 
                     b.Property<string>("UserPosting");
 
@@ -111,25 +137,10 @@ namespace HR.DataAccess.Migrations
 
             modelBuilder.Entity("HR.DataAccess.Models.ApplicationUser", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Email");
-
-                    b.Property<string>("Lastname");
-
-                    b.Property<string>("Name");
-
-                    b.Property<string>("NameIdentifier");
-
-                    b.Property<int>("RoleId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("Users");
+                    b.HasOne("HR.DataAccess.Models.Role", "Role")
+                        .WithMany("AppUsers")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("HR.DataAccess.Models.JobApplication", b =>
@@ -139,7 +150,7 @@ namespace HR.DataAccess.Migrations
                         .HasForeignKey("JobOfferId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("HR.DataAccess.Models.ApplicationUser", "ApplicationUser")
+                    b.HasOne("HR.DataAccess.Models.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -150,14 +161,6 @@ namespace HR.DataAccess.Migrations
                     b.HasOne("HR.DataAccess.Models.Company", "Company")
                         .WithMany("JobOffers")
                         .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("HR.DataAccess.Models.ApplicationUser", b =>
-                {
-                    b.HasOne("HR.DataAccess.Models.Role", "Role")
-                        .WithMany("AppUsers")
-                        .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

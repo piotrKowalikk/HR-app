@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HR.DataAccess.Migrations
 {
-    public partial class refacto : Migration
+    public partial class simpleusertable : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(   
+            migrationBuilder.CreateTable(
                 name: "Companies",
                 columns: table => new
                 {
@@ -41,15 +41,14 @@ namespace HR.DataAccess.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     CompanyId = table.Column<int>(nullable: false),
-                    Position = table.Column<string>(nullable: true),
+                    Position = table.Column<string>(nullable: false),
                     Description = table.Column<string>(nullable: true),
-                    SalaryFrom = table.Column<int>(nullable: true),
-                    SalaryTo = table.Column<int>(nullable: true),
+                    SalaryFrom = table.Column<int>(nullable: false),
+                    SalaryTo = table.Column<int>(nullable: false),
                     IsActive = table.Column<bool>(nullable: false),
                     DatePosted = table.Column<DateTime>(nullable: false),
                     DateExpiration = table.Column<DateTime>(nullable: false),
-                    UserPosting = table.Column<string>(nullable: true),
-                    UserApply = table.Column<string>(nullable: true)
+                    UserPosting = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

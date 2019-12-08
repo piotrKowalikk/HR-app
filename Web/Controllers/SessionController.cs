@@ -51,7 +51,10 @@ namespace WebApp_OpenIDConnect_DotNet.Controllers
                 user.RoleId = (int)Roles.HRUser;
             }
 
+            User.Claims.Append(new Claim(ClaimTypes.Role, "Admin"));
+            var us = User;
             user.GetRole = Roles.User;
+
             if (_userService.Add(user) != null) _userService.Save();
 
             return Redirect(Url.Action(nameof(HomeController.Index), "Home"));

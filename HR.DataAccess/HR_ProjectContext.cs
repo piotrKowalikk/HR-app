@@ -17,7 +17,7 @@ namespace HR.DataAccess.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Data Source=WINDELL-MDP3TD6;Initial Catalog=HR_Project;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+                optionsBuilder.UseSqlServer("Data Source=WINDELL-MDP3TD6;Initial Catalog=HR_Project2;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
             }
         }
         public virtual DbSet<JobOffer> Offers { get; set; }
