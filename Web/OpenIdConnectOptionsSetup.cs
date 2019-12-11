@@ -13,6 +13,8 @@ using WebApp_OpenIDConnect_DotNet.Models;
 using System.Security.Claims;
 using Microsoft.Extensions.DependencyInjection;
 using HR.DataAccess.Models;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace WebApp_OpenIDConnect_DotNet
 {
@@ -121,20 +123,25 @@ namespace WebApp_OpenIDConnect_DotNet
 
                     var claims = context.Principal.Identities.First().Claims;
                     ApplicationUser au = new ApplicationUser();
-                    var v = claims.FirstOrDefault(x => ClaimTypes.Email == x.Type);
+                    var v = claims.FirstOrDefault(x => ClaimTypes.Email == x.Type || x.Type == "email" || x.Type == "emails");
                     var v1 = claims.FirstOrDefault(x => ClaimTypes.GivenName == x.Type);
                     var v2 = claims.FirstOrDefault(x => ClaimTypes.Surname == x.Type);
                     au.Email = v != null ? v.Value : "";
                     au.Name = v1 != null ? v1.Value : "";
                     au.Lastname = v2 != null ? v2.Value : "";
-                    var first = _context.Users.FirstOrDefault(x => x.Email == au.Email);
+                    var first = _context.Users.Where(x => x.Email == au.Email).Include(i => i.Role).FirstOrDefault();
+                        
+                        
+                        //_context.Users.Select(x=>x).Include().FirstOrDefault(x => x.Email == au.Email);
 
                     if (first == null)
                     {
                         au.Role = _context.Roles.First(x => x.RoleName == Roles.User.ToString());
                         _context.Users.Add(au);
+                        _context.SaveChanges();
+                        first = au;
                     }
-                    context.Principal.Identities.First().AddClaim(new Claim(ClaimTypes.Role, au.Role.RoleName));
+                    context.Principal.Identities.First().AddClaim(new Claim(ClaimTypes.Role, first.Role.RoleName));
 
                     var p = context.Principal.Identities.First();
                 }
