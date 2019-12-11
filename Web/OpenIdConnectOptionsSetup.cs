@@ -12,6 +12,7 @@ using Microsoft.Identity.Client;
 using WebApp_OpenIDConnect_DotNet.Models;
 using System.Security.Claims;
 using Microsoft.Extensions.DependencyInjection;
+using HR.DataAccess.Models;
 
 namespace WebApp_OpenIDConnect_DotNet
 {
@@ -113,6 +114,21 @@ namespace WebApp_OpenIDConnect_DotNet
                     .WithClientSecret(AzureAdB2COptions.ClientSecret)
                     .Build();
                 new MSALStaticCache(signedInUserID, context.HttpContext).EnablePersistence(cca.UserTokenCache);
+
+                if (context.Principal != null)
+                {
+
+                    var claims = context.Principal.Identities.First().Claims;
+                    ApplicationUser au = new ApplicationUser();
+                    var v = claims.FirstOrDefault(x => ClaimTypes.Email == x.Type);
+                    var v1 = claims.FirstOrDefault(x => ClaimTypes.GivenName == x.Type);
+                    var v2 = claims.FirstOrDefault(x => ClaimTypes.Surname == x.Type);
+                    au.Email = v != null ? v.Value : "";
+                    au.Name = v1 != null ? v1.Value : "";
+                    au.Lastname = v2 != null ? v2.Value : "";
+                    context.Principal.Identities.First().AddClaim(new Claim(ClaimTypes.Role, "Admin"));
+                    var p = context.Principal.Identities.First();
+                }
 
                 try
                 {

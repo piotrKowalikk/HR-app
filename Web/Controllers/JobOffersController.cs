@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HR.DataAccess.Models;
 using HR.BusinessLogic.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Web.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class JobOffersController : Controller
     {
         private readonly HR_ProjectContext _context;

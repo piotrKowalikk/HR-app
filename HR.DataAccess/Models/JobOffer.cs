@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Authorization;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -7,7 +8,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace HR.DataAccess.Models
 
 {
-
     public class JobOffer : Entity
     {
         [Key]

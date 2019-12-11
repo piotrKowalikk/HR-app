@@ -37,25 +37,25 @@ namespace WebApp_OpenIDConnect_DotNet.Controllers
         [HttpGet]
         public IActionResult postUserClaims()
         {
-            ApplicationUser user = new ApplicationUser();
-            foreach (var v in User.Claims)
-            {
-                if (v.Type.Contains("email"))
-                    user.Email = v.Value;
-                if (v.Type.Contains("givenname"))
-                    user.Name = v.Value;
-                if (v.Type.Contains("surname"))
-                    user.Lastname = v.Value;
-                if (v.Type.Contains("nameidentifier"))
-                    user.NameIdentifier = v.Value;
-                user.RoleId = (int)Roles.HRUser;
-            }
+            //ApplicationUser user = new ApplicationUser();
+            //foreach (var v in User.Claims)
+            //{
+            //    if (v.Type.Contains("email"))
+            //        user.Email = v.Value;
+            //    if (v.Type.Contains("givenname"))
+            //        user.Name = v.Value;
+            //    if (v.Type.Contains("surname"))
+            //        user.Lastname = v.Value;
+            //    if (v.Type.Contains("nameidentifier"))
+            //        user.NameIdentifier = v.Value;
+            //    user.RoleId = (int)Roles.HRUser;
+            //}
 
-            User.Claims.Append(new Claim(ClaimTypes.Role, "Admin"));
-            var us = User;
-            user.GetRole = Roles.User;
+            //User.Claims.Append(new Claim(ClaimTypes.Role, "Admin"));
+            //var us = User;
+            //user.GetRole = Roles.User;
 
-            if (_userService.Add(user) != null) _userService.Save();
+            //if (_userService.Add(user) != null) _userService.Save();
 
             return Redirect(Url.Action(nameof(HomeController.Index), "Home"));
         }
