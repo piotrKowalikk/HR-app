@@ -33,10 +33,11 @@ namespace WebApp_OpenIDConnect_DotNet
 
         public class OpenIdConnectOptionsSetup : IConfigureNamedOptions<OpenIdConnectOptions>
         {
-
-            public OpenIdConnectOptionsSetup(IOptions<AzureAdB2COptions> b2cOptions)
+            readonly HR_ProjectContext _context;
+            public OpenIdConnectOptionsSetup(IOptions<AzureAdB2COptions> b2cOptions, HR_ProjectContext context)
             {
                 AzureAdB2COptions = b2cOptions.Value;
+                _context = context;
             }
 
             public AzureAdB2COptions AzureAdB2COptions { get; set; }
@@ -126,7 +127,15 @@ namespace WebApp_OpenIDConnect_DotNet
                     au.Email = v != null ? v.Value : "";
                     au.Name = v1 != null ? v1.Value : "";
                     au.Lastname = v2 != null ? v2.Value : "";
-                    context.Principal.Identities.First().AddClaim(new Claim(ClaimTypes.Role, "Admin"));
+                    var first = _context.Users.FirstOrDefault(x => x.Email == au.Email);
+
+                    if (first == null)
+                    {
+                        au.Role = _context.Roles.First(x => x.RoleName == Roles.User.ToString());
+                        _context.Users.Add(au);
+                    }
+                    context.Principal.Identities.First().AddClaim(new Claim(ClaimTypes.Role, au.Role.RoleName));
+
                     var p = context.Principal.Identities.First();
                 }
 
@@ -134,8 +143,6 @@ namespace WebApp_OpenIDConnect_DotNet
                 {
                     AuthenticationResult result = await cca.AcquireTokenByAuthorizationCode(AzureAdB2COptions.ApiScopes.Split(' '), code)
                         .ExecuteAsync();
-
-
                     context.HandleCodeRedemption(result.AccessToken, result.IdToken);
                 }
                 catch (Exception ex)
