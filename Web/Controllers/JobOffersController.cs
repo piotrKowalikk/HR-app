@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Web.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public class JobOffersController : Controller
     {
         private readonly HR_ProjectContext _context;
@@ -51,6 +51,8 @@ namespace Web.Controllers
         // GET: JobOffers/Create
         public IActionResult Create()
         {
+
+
             return View();
         }
 
@@ -61,6 +63,10 @@ namespace Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,CompanyId,Position,Description,SalaryFrom,SalaryTo,IsActive,DatePosted,DateExpiration,UserPosting,UserApply")] JobOffer jobOffer)
         {
+            jobOffer.IsActive = true;
+            jobOffer.UserId = 2;//TODO
+            jobOffer.DatePosted = DateTime.Now;
+
             if (ModelState.IsValid)
             {
                 _context.Add(jobOffer);

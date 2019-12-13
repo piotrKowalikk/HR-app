@@ -20,6 +20,9 @@ namespace HR.DataAccess.Models
         [Required]
         public string Position { get; set; }
 
+        [Required]
+        public int UserId { get; set; }
+
         public string Description { get; set; }
 
         [Required]
@@ -42,7 +45,7 @@ namespace HR.DataAccess.Models
         public DateTime DateExpiration { get; set; }
 
         [DisplayName("Posted by")]
-        public string UserPosting { get; set; }
+        public ApplicationUser User { get; set; }
 
         public virtual Company Company { get; set; }
         public ICollection<JobApplication> JobApplications { get; set; } 

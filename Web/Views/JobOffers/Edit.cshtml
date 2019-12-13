@@ -94,9 +94,7 @@
             success: function (data) {
                 console.log(data)
                 data.forEach(x => {
-                    $('#companiesSelect').append(`<option value="${x.id}">
-                                       ${x.name}
-                                  </option>`);
+                    $('#companiesSelect').append(`<option value="${x.id}">${x.name}</option>`);
                 });
                 console.log($('#companyInitId').val())
                 $('#companiesSelect').prop('selectedIndex', $('#companyInitId').text());

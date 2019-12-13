@@ -4,14 +4,16 @@ using HR.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HR.DataAccess.Migrations
 {
     [DbContext(typeof(HR_ProjectContext))]
-    partial class HR_ProjectContextModelSnapshot : ModelSnapshot
+    [Migration("20191211230703_foreign key from offer to user")]
+    partial class foreignkeyfromoffertouser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -111,13 +113,16 @@ namespace HR.DataAccess.Migrations
                     b.Property<int?>("SalaryTo")
                         .IsRequired();
 
-                    b.Property<int>("UserId");
+                    b.Property<string>("UserId")
+                        .IsRequired();
+
+                    b.Property<int?>("UserId1");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CompanyId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId1");
 
                     b.ToTable("Offers");
                 });
@@ -165,8 +170,7 @@ namespace HR.DataAccess.Migrations
 
                     b.HasOne("HR.DataAccess.Models.ApplicationUser", "User")
                         .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("UserId1");
                 });
 #pragma warning restore 612, 618
         }
