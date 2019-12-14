@@ -14,18 +14,24 @@ namespace HR.DataAccess.Models
         public int UserId { get; set; }
 
         [DisplayName("Firstname")]
+        [Required]
         public string FirstName { get; set; }
 
         [DisplayName("Last edit")]
         public DateTime ApplicationDate { get; set; }
 
         [DisplayName("Lastname")]
+        [Required]
         public string LastName { get; set; }
 
         [DisplayName("Phone number")]
+        [Required]
+        [RegularExpression("^[0-9]{9}$", ErrorMessage = "Your phone number should be 9 characters long and contain only numbers.")]
         public string PhoneNumber { get; set; }
 
         [DisplayName("Email")]
+        [Required]
+        [EmailAddress]
         public string EmailAddress { get; set; }
 
         [DisplayName("Enable phone contact")]
