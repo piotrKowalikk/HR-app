@@ -90,25 +90,18 @@ namespace Web.Controllers
 
             var jobApplication = await _context.JobApplications.FindAsync(id);
             if (jobApplication == null)
-            {
                 return NotFound();
-            }
-            ViewData["JobOfferId"] = new SelectList(_context.Offers, "Id", "Id", jobApplication.JobOfferId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", jobApplication.UserId);
+
             return View(jobApplication);
         }
 
         // POST: JobApplications/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,JobOfferId,UserId,FirstName,LastName,PhoneNumber,EmailAddress,ContactAgreement,CVurl")] JobApplication jobApplication)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,PhoneNumber,EmailAddress,ContactAgreement")] JobApplication jobApplication)
         {
             if (id != jobApplication.Id)
-            {
                 return NotFound();
-            }
 
             if (ModelState.IsValid)
             {
@@ -130,8 +123,7 @@ namespace Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["JobOfferId"] = new SelectList(_context.Offers, "Id", "Id", jobApplication.JobOfferId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", jobApplication.UserId);
+
             return View(jobApplication);
         }
 

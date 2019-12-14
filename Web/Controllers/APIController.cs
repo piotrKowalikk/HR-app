@@ -1,7 +1,11 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
+using System.Web;
 using System.Linq;
 using System.Net.Http;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Blob;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using HR.BusinessLogic.Interfaces;
@@ -12,6 +16,9 @@ using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using WebApp_OpenIDConnect_DotNet;
 using WebApp_OpenIDConnect_DotNet.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
+using System.IO;
+using WebApp_OpenIDConnect_DotNet.Helpers;
 
 namespace Web.Controllers
 {
@@ -20,12 +27,18 @@ namespace Web.Controllers
         AzureAdB2COptions AzureAdB2COptions;
         IUserService<ApplicationUser> userService;
         private readonly HR_ProjectContext _context;
+        IOptions<MyConfig> options;
 
-        public APIController(IOptions<AzureAdB2COptions> azureAdB2COptions, IUserService<ApplicationUser> uService, IOfferService<JobOffer> oService, HR_ProjectContext context)
+        public APIController(IOptions<AzureAdB2COptions> azureAdB2COptions,
+            IUserService<ApplicationUser> uService,
+            IOfferService<JobOffer> oService,
+            IOptions<MyConfig> options,
+            HR_ProjectContext context)
         {
             AzureAdB2COptions = azureAdB2COptions.Value;
             userService = uService;
             _context = context;
+            this.options = options;
 
         }
 
@@ -41,9 +54,9 @@ namespace Web.Controllers
 
             totalRecord = _context.Offers.Count();
             totalPage = (totalRecord / pageSize) + ((totalRecord % pageSize) > 0 ? 1 : 0);
-            var record = (from u in _context.Offers.Include(i=>i.Company)
+            var record = (from u in _context.Offers.Include(i => i.Company)
                           orderby u.Company.Name, u.Position
-                          select u).Skip((pageNo - 1) * pageSize).Take(pageSize).Select(x=>new OfferViewModel() {Position=x.Position,Company=x.Company.Name,Id=x.Id }).ToList();
+                          select u).Skip((pageNo - 1) * pageSize).Take(pageSize).Select(x => new OfferViewModel() { Position = x.Position, Company = x.Company.Name, Id = x.Id }).ToList();
 
             PagingViewModel empData = new PagingViewModel
             {
@@ -70,6 +83,48 @@ namespace Web.Controllers
             var roles = _context.Roles.Select(x => x);
             var json = Json(roles);
             return json;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult > PostCV(string applicationId, List<IFormFile> files)
+        {
+
+            var filePath = Guid.NewGuid().ToString() + "--" + files[0].FileName;
+            int.TryParse(applicationId, out int appId);
+            JobApplication jobApp;
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await files[0].CopyToAsync(stream);
+            }
+
+
+
+            string storageConnectionString = options.Value.ConnectionParameters;
+            string uri = "";
+            CloudStorageAccount storageAccount;
+            if (CloudStorageAccount.TryParse(storageConnectionString, out storageAccount))
+            {
+                CloudBlobClient cloudBlobClient = storageAccount.CreateCloudBlobClient();
+                CloudBlobContainer cloudBlobContainer = cloudBlobClient.GetContainerReference("cvcontainer");
+                CloudBlockBlob cloudBlockBlob = cloudBlobContainer.GetBlockBlobReference(filePath);
+                await cloudBlockBlob.UploadFromFileAsync(filePath);
+                uri = cloudBlockBlob.Uri.AbsoluteUri; 
+            }
+
+            try
+            {
+                jobApp = _context.JobApplications.Find(appId);
+                jobApp.CVurl = uri;
+                _context.Update(jobApp);
+                _context.SaveChanges();
+            }
+            catch
+            {
+                return Json(new { status = "error", message = "bad applicationId" });
+            }
+            var fileInfo = new System.IO.FileInfo(@".\"+filePath);
+            fileInfo.Delete();
+            return Json(new { filePath = files[0].FileName });
         }
 
         [HttpPost]

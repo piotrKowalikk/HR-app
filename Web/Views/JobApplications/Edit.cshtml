@@ -4,68 +4,126 @@
     ViewData["Title"] = "Edit";
 }
 
-<h2>Edit</h2>
+<h4>Your application</h4>
 
-<h4>JobApplication</h4>
+
+
+<h2 style="text-align:center">@ViewData["Header"]</h2>
+
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="JobOfferId" class="control-label"></label>
-                <select asp-for="JobOfferId" class="form-control" asp-items="ViewBag.JobOfferId"></select>
-                <span asp-validation-for="JobOfferId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UserId" class="control-label"></label>
-                <select asp-for="UserId" class="form-control" asp-items="ViewBag.UserId"></select>
-                <span asp-validation-for="UserId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PhoneNumber" class="control-label"></label>
-                <input asp-for="PhoneNumber" class="form-control" />
-                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EmailAddress" class="control-label"></label>
-                <input asp-for="EmailAddress" class="form-control" />
-                <span asp-validation-for="EmailAddress" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <div class="checkbox">
-                    <label>
-                        <input asp-for="ContactAgreement" /> @Html.DisplayNameFor(model => model.ContactAgreement)
-                    </label>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+        </div>
+        <div class="col-md-6">
+            <form asp-action="Create" method="post">
+                <div class="form-group" hidden>
+                    <label asp-for="JobOfferId" class="control-label"></label>
+                    <input  asp-for="JobOfferId" class="form-control" />
+                    <span asp-validation-for="JobOfferId" class="text-danger"></span>
+                </div>             
+                <div class="form-group" hidden>
+                    <label asp-for="Id" class="control-label"></label>
+                    <input id="applicationId"  asp-for="Id" class="form-control" />
                 </div>
-            </div>
-            <div class="form-group">
-                <label asp-for="CVurl" class="control-label"></label>
-                <input asp-for="CVurl" class="form-control" />
-                <span asp-validation-for="CVurl" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </form>
-    </div>
-</div>
+                <div class="form-group">
+                    <label asp-for="FirstName" class="control-label"></label>
+                    <input asp-for="FirstName" class="form-control" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="LastName" class="control-label"></label>
+                    <input asp-for="LastName" class="form-control" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PhoneNumber" class="control-label"></label>
+                    <input asp-for="PhoneNumber" class="form-control" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="EmailAddress" class="control-label"></label>
+                    <input asp-for="EmailAddress" class="form-control" />
+                    <span asp-validation-for="EmailAddress" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label>
+                            <input asp-for="ContactAgreement" /> @Html.DisplayNameFor(model => model.ContactAgreement)
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <a asp-controller="JobOffers" asp-action="Index" class="btn btn-default">Back to List</a>
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </form>
+            <hr />
+            <form id="uploadForm" method="post" enctype="multipart/form-data" asp-controller="API" asp-action="PostCV">
+                <div class="form-group">
+                    <label>Your CV: </label>
+                    <label id="fileName"></label>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+
+                    <input id="fileUploadInputId" type="file" name="file" />
+                </div>
+            </form>
+        </div>
+
+
+        <div class="col-md-3">
+        </div>
+    </div>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(document).ready(function () {
+            $("#fileUploadInputId").change((e) => {
+                console.log('change')
+                $("#uploadForm").submit();
+            });
+        });
+
+        $(function () {
+
+            $("#uploadForm").submit(function (e) {
+                e.preventDefault();  //prevent normal form submission
+                console.log('upload')
+
+                var actionUrl = $(this).attr("action");  // get the form action value
+                console.log(actionUrl);
+                uploadFiles('fileUploadInputId', actionUrl)
+
+            });
+        });
+
+        function uploadFiles(inputId,url) {
+            var input = document.getElementById(inputId);
+            var files = input.files;
+            var formData = new FormData();
+            formData.append("applicationId", $("#applicationId").val());
+            for (var i = 0; i != files.length; i++) {
+                formData.append("files", files[i]);
+            }
+            console.log(formData)
+
+            $.ajax(
+                {
+                    url: '@Url.Action("PostCV","API")',
+                    data: formData ,
+                    processData: false,
+                    contentType: false,
+                    type: "POST",
+                    success: function (data) {
+                        document.getElementById("fileName").innerText = data.filePath;
+                    },
+                    error: function (e) {
+                    }
+                }
+            );
+        }
+    </script>
 }

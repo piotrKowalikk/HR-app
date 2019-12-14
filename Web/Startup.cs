@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using Microsoft.EntityFrameworkCore;
+using WebApp_OpenIDConnect_DotNet.Helpers;
 
 namespace WebApp_OpenIDConnect_DotNet
 {
@@ -64,6 +65,7 @@ namespace WebApp_OpenIDConnect_DotNet
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
+            services.Configure<MyConfig>(Configuration.GetSection("MyConfig"));
 
 
         }
