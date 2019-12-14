@@ -69,9 +69,16 @@ namespace Web.Controllers
 
             if (ModelState.IsValid)
             {
-                _context.Add(jobOffer);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    _context.Add(jobOffer);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                catch
+                {
+                    return NotFound();
+                }
             }
             return View(jobOffer);
         }

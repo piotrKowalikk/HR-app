@@ -41,9 +41,10 @@
                         $row.append($('<td/>').html(emp.id));
                         $row.append($('<td/>').html(emp.position));
                         $row.append($('<td/>').html(emp.company));
-                        $row.append($('<td width ="150"/>').html(
+                        $row.append($('<td width ="200"/>').html(
                             `<a class="btn btn-primary btn-sm"  href=@Url.Action("Edit","JobOffers")/${emp.id}>Edit</a>`+
-                            `  <a class="btn btn-primary btn-sm"  href=@Url.Action("Delete","JobOffers")/${emp.id}>Delete</a>`
+                            `  <a class="btn btn-primary btn-sm"  href=@Url.Action("Delete","JobOffers")/${emp.id}>Delete</a>`+
+                            `  <a class="btn btn-primary btn-sm"  href=@Url.Action("Create","JobApplications")/${emp.id}>Apply</a>`
 
 
                         ));

@@ -4,63 +4,78 @@
     ViewData["Title"] = "Create";
 }
 
-<h2>Create</h2>
+@*[DisplayName("Firstname")]
+    public string FirstName { get; set; }
 
-<h4>JobApplication</h4>
+    [DisplayName("Last edit")]
+    public DateTime ApplicationDate { get; set; }
+
+    [DisplayName("Lastname")]
+    public string LastName { get; set; }
+
+    [DisplayName("Phone number")]
+    public string PhoneNumber { get; set; }
+
+    [DisplayName("Email")]
+    public string EmailAddress { get; set; }
+
+    [DisplayName("Enable phone contact")]
+    public bool ContactAgreement { get; set; }*@
+
+
+<h2 style="text-align:center">@ViewData["Header"]</h2>
+
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="JobOfferId" class="control-label"></label>
-                <select asp-for="JobOfferId" class ="form-control" asp-items="ViewBag.JobOfferId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="UserId" class="control-label"></label>
-                <select asp-for="UserId" class ="form-control" asp-items="ViewBag.UserId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PhoneNumber" class="control-label"></label>
-                <input asp-for="PhoneNumber" class="form-control" />
-                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EmailAddress" class="control-label"></label>
-                <input asp-for="EmailAddress" class="form-control" />
-                <span asp-validation-for="EmailAddress" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <div class="checkbox">
-                    <label>
-                        <input asp-for="ContactAgreement" /> @Html.DisplayNameFor(model => model.ContactAgreement)
-                    </label>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+        </div>
+        <form asp-action="Create" method="post">
+            <div class="col-md-6">
+                <div class="form-group" hidden>
+                    <label asp-for="JobOfferId" class="control-label"></label>
+                    <input asp-for="JobOfferId" class="form-control" />
+                    <span asp-validation-for="JobOfferId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="FirstName" class="control-label"></label>
+                    <input asp-for="FirstName" class="form-control" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="LastName" class="control-label"></label>
+                    <input asp-for="LastName" class="form-control" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PhoneNumber" class="control-label"></label>
+                    <input asp-for="PhoneNumber" class="form-control" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="EmailAddress" class="control-label"></label>
+                    <input asp-for="EmailAddress" class="form-control" />
+                    <span asp-validation-for="EmailAddress" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label>
+                            <input asp-for="ContactAgreement" /> @Html.DisplayNameFor(model => model.ContactAgreement)
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <hr />
+                        <a asp-controller="JobOffers" asp-action="Index" class="btn btn-default">Back to List</a>
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                    </div>
                 </div>
             </div>
-            <div class="form-group">
-                <label asp-for="CVurl" class="control-label"></label>
-                <input asp-for="CVurl" class="form-control" />
-                <span asp-validation-for="CVurl" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
         </form>
+        <div class="col-md-3">
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

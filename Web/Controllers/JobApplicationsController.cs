@@ -45,29 +45,38 @@ namespace Web.Controllers
             return View(jobApplication);
         }
 
-        // GET: JobApplications/Create
-        public IActionResult Create()
+        // GET: JobApplications/Create/offerId
+        public IActionResult Create(int id)
         {
-            ViewData["JobOfferId"] = new SelectList(_context.Offers, "Id", "Id");
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
-            return View();
+            JobOffer offer;
+            try
+            {
+                offer = _context.Offers.Include(x => x.Company).SingleOrDefault(x => x.Id == id);
+            }
+            catch
+            {
+                return NotFound();
+            }
+            //pora widok wystrugać
+            //TODO: send default from user data.
+            ViewData["Header"] = "Aplpication for " + offer.Position + " in company " + offer.Company.Name;
+            return View(new JobApplication() { JobOfferId=id});
         }
 
         // POST: JobApplications/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,JobOfferId,UserId,FirstName,LastName,PhoneNumber,EmailAddress,ContactAgreement,CVurl")] JobApplication jobApplication)
+        public async Task<IActionResult> Create([Bind("JobOfferId,FirstName,LastName,PhoneNumber,EmailAddress,ContactAgreement")] JobApplication jobApplication)
         {
+            jobApplication.ApplicationDate = DateTime.Now;
+            jobApplication.UserId = 2;//TODO;
+
             if (ModelState.IsValid)
             {
                 _context.Add(jobApplication);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Edit",new { id= jobApplication.Id });
             }
-            ViewData["JobOfferId"] = new SelectList(_context.Offers, "Id", "Id", jobApplication.JobOfferId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", jobApplication.UserId);
             return View(jobApplication);
         }
 
