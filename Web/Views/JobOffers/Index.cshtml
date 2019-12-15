@@ -9,11 +9,11 @@
 <div class="col-md-12">
     <div class="form-group row" >
         <div class="col-md-10" style="padding:0">
-        <input class="form-control col-md-10" id="searchBarId" />
+        <input class="form-control col-md-10" autofocus id="searchBarId" placeholder="Type to filter job offers" />
 
         </div>
         <div class="col-md-2">
-        <input class="btn-primary form-control col-md-2" style="text-align:center" value="Search" />
+        <input id="searchBarButtonId" type="button" class="btn-primary form-control col-md-2" style="text-align:center" value="Search" />
         </div>
     </div>
     <hr/>
@@ -28,6 +28,13 @@
         var currentPage = 1;
         $(document).ready(function () {
             fetchData(1);
+            $("#searchBarButtonId").click(x => {
+            fetchData(1);
+            });
+            $("#searchBarId").on("keyup", x => {
+                fetchData(1);
+            });
+
         });
         function fetchData(pageNo) {
             var $loading = "<div class='loading'>Please wait...</div>";
@@ -35,18 +42,22 @@
             $.ajax({
                 url: 'api/GetJobOffers',
                 type: 'GET',
-                data: { pageNo: pageNo },
+                data: {
+                    pageNo: pageNo,
+                    filter: $("#searchBarId").val()
+                },
                 dataType: 'json',
                 success: function (data) {
+                    console.log(data)
                     var $table = $('<table/>').addClass('table table-striped table-bordered table-hover');
-                    var $header = $('<thead/>').html(`<tr><th >Id</th><th >Position</th><th >Company</th><th style="text-align:center ">    <a style="font-weight:normal" class="btn-sm btn-primary " href=@Url.Action("Create","JobOffers")>Create New</a></th>`);
+                    var $header = $('<thead/>').html(`<tr><th >Position</th><th >Company</th ><th width="220" >Monthly salary range in PLN</th><th style="text-align:center ">    <a style="font-weight:normal" class="btn-sm btn-primary " href=@Url.Action("Create","JobOffers")>Create New</a></th>`);
                     $table.append($header);
                     var $tbody = $('<tbody/>').html('');
                     $.each(data.offers, function (i, emp) {
                         var $row = $('<tr/>');
-                        $row.append($('<td/>').html(emp.id));
                         $row.append($('<td/>').html(emp.position));
                         $row.append($('<td/>').html(emp.company));
+                        $row.append($('<td style="text-align:center"/>').html(emp.salaryFrom + " - " + emp.salaryTo));
                         $row.append($('<td width ="200"/>').html(
                               `<div style="text-align:center">  <a class="btn-primary btn-sm"  href=@Url.Action("Delete","JobOffers")/${emp.id}>Delete</a> `+
                             `<a class="btn-primary btn-sm"  href=@Url.Action("Edit","JobOffers")/${emp.id}>Edit</a>` +

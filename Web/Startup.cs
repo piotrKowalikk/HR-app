@@ -14,6 +14,9 @@ using Microsoft.Extensions.Logging;
 using System;
 using Microsoft.EntityFrameworkCore;
 using WebApp_OpenIDConnect_DotNet.Helpers;
+using Swashbuckle.AspNetCore.Swagger;
+using System.Reflection;
+using System.IO;
 
 namespace WebApp_OpenIDConnect_DotNet
 {
@@ -66,7 +69,12 @@ namespace WebApp_OpenIDConnect_DotNet
                 options.Cookie.IsEssential = true;
             });
             services.Configure<MyConfig>(Configuration.GetSection("MyConfig"));
-
+            services.AddSwaggerGen(c => {
+                c.SwaggerDoc("v1", new Info { Title = "Employee API", Version = "V1" });
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+            });
 
         }
 
@@ -98,6 +106,10 @@ namespace WebApp_OpenIDConnect_DotNet
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+            });
+            app.UseSwagger();
+            app.UseSwaggerUI(c => {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "post API V1");
             });
         }
     }

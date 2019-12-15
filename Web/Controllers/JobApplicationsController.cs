@@ -19,6 +19,7 @@ namespace Web.Controllers
         }
 
         // GET: JobApplications
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             var hR_ProjectContext = _context.JobApplications
@@ -29,6 +30,7 @@ namespace Web.Controllers
 
 
         // GET: JobApplications/Create/offerId
+        [HttpGet]
         public IActionResult Create(int id)
         {
             JobOffer offer;
@@ -64,6 +66,7 @@ namespace Web.Controllers
         }
 
         // GET: JobApplications/Edit/5
+        [HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -111,6 +114,7 @@ namespace Web.Controllers
         }
 
         // GET: JobApplications/Delete/5
+        [HttpGet]
         public async Task<IActionResult> Delete(int? id)
         {
             var jobApplication = await _context.JobApplications.FindAsync(id);
