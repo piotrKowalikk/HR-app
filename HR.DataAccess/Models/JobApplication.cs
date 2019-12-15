@@ -34,7 +34,7 @@ namespace HR.DataAccess.Models
         [EmailAddress]
         public string EmailAddress { get; set; }
 
-        [DisplayName("Enable phone contact")]
+        [DisplayName("Contact agreement")]
         public bool ContactAgreement { get; set; }
 
         [DisplayName("CV")]

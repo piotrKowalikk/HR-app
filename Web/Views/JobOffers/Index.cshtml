@@ -5,15 +5,21 @@
 }
 
 <h2>Job offers list</h2>
+<hr />
+<div class="col-md-12">
+    <div class="form-group row" >
+        <div class="col-md-10" style="padding:0">
+        <input class="form-control col-md-10" id="searchBarId" />
 
-<p>
-    <a style="float: right; margin-bottom:5px" class="btn btn-primary " asp-action="Create">Create New</a>
-</p>
-
-
+        </div>
+        <div class="col-md-2">
+        <input class="btn-primary form-control col-md-2" style="text-align:center" value="Search" />
+        </div>
+    </div>
+    <hr/>
+</div>
 
 <div id="updatePanel">
-
 </div>
 
 
@@ -33,7 +39,7 @@
                 dataType: 'json',
                 success: function (data) {
                     var $table = $('<table/>').addClass('table table-striped table-bordered table-hover');
-                    var $header = $('<thead/>').html('<tr><th >Id</th><th >Position</th><th >Company</th></tr>');
+                    var $header = $('<thead/>').html(`<tr><th >Id</th><th >Position</th><th >Company</th><th style="text-align:center ">    <a style="font-weight:normal" class="btn-sm btn-primary " href=@Url.Action("Create","JobOffers")>Create New</a></th>`);
                     $table.append($header);
                     var $tbody = $('<tbody/>').html('');
                     $.each(data.offers, function (i, emp) {
@@ -42,11 +48,12 @@
                         $row.append($('<td/>').html(emp.position));
                         $row.append($('<td/>').html(emp.company));
                         $row.append($('<td width ="200"/>').html(
-                            `<a class="btn btn-primary btn-sm"  href=@Url.Action("Edit","JobOffers")/${emp.id}>Edit</a>`+
-                            `  <a class="btn btn-primary btn-sm"  href=@Url.Action("Delete","JobOffers")/${emp.id}>Delete</a>`+
-                            `  <a class="btn btn-primary btn-sm"  href=@Url.Action("Create","JobApplications")/${emp.id}>Apply</a>`
+                              `<div style="text-align:center">  <a class="btn-primary btn-sm"  href=@Url.Action("Delete","JobOffers")/${emp.id}>Delete</a> `+
+                            `<a class="btn-primary btn-sm"  href=@Url.Action("Edit","JobOffers")/${emp.id}>Edit</a>` +
 
-
+                            `  <a class=" btn-primary btn-sm"  href=@Url.Action("Create","JobApplications")/${emp.id}>Apply</a>
+    </div>
+    `
                         ));
 
                         $tbody.append($row);

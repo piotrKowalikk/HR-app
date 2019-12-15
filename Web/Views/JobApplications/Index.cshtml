@@ -4,19 +4,13 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
+<h2>Your job applications</h2>
+<hr/>
+<table class="table table-striped table-bordered table-hover">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.FirstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LastName)
+                @Html.DisplayNameFor(model => model.JobOffer.Position)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.PhoneNumber)
@@ -24,29 +18,20 @@
             <th>
                 @Html.DisplayNameFor(model => model.EmailAddress)
             </th>
-            <th>
+            <th width="50">
                 @Html.DisplayNameFor(model => model.ContactAgreement)
             </th>
-            <th>
+            <th width="180">
                 @Html.DisplayNameFor(model => model.CVurl)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.User)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.JobOffer)
-            </th>
-            <th></th>
+            <th width="130"></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
+                @Html.DisplayFor(modelItem => item.JobOffer.Position)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.PhoneNumber)
@@ -54,25 +39,18 @@
             <td>
                 @Html.DisplayFor(modelItem => item.EmailAddress)
             </td>
-            <td>
+            <td align="center">
                 @Html.DisplayFor(modelItem => item.ContactAgreement)
             </td>
-            <td>
+            <td >
                 @if (item.CVurl != "" && item.CVurl != null)
                 {
                 <a class="btn-sm btn-primary" href='@item.CVurl'>Download my application</a>
                 }
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.User.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.JobOffer.Id)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a class="btn-primary btn-sm" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a class="btn-primary btn-sm" asp-action="Edit" asp-route-id="@item.Id">Edit</a> 
             </td>
         </tr>
 }

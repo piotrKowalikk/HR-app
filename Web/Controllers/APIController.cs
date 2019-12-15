@@ -48,13 +48,15 @@ namespace Web.Controllers
         }
 
         [HttpGet]
-        public JsonResult GetJobOffers(int pageNo = 1, int pageSize = 5)
+        public JsonResult GetJobOffers(int pageNo = 1, int pageSize = 5, string filter = null)
         {
             int totalPage, totalRecord;
 
             totalRecord = _context.Offers.Count();
             totalPage = (totalRecord / pageSize) + ((totalRecord % pageSize) > 0 ? 1 : 0);
-            var record = (from u in _context.Offers.Include(i => i.Company)
+            var record = (from u in _context.Offers
+                          .Include(i => i.Company)
+                          where filter == null || filter == "" || u.Position.Contains(filter) || u.Company.Name.Contains(filter)
                           orderby u.Company.Name, u.Position
                           select u).Skip((pageNo - 1) * pageSize).Take(pageSize).Select(x => new OfferViewModel() { Position = x.Position, Company = x.Company.Name, Id = x.Id }).ToList();
 
@@ -86,7 +88,7 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult > PostCV(string applicationId, List<IFormFile> files)
+        public async Task<IActionResult> PostCV(string applicationId, List<IFormFile> files)
         {
             var filePath = Guid.NewGuid().ToString() + "--" + files[0].FileName;
             int.TryParse(applicationId, out int appId);
@@ -105,7 +107,7 @@ namespace Web.Controllers
                 CloudBlobContainer cloudBlobContainer = cloudBlobClient.GetContainerReference(options.Value.ContainerName);
                 CloudBlockBlob cloudBlockBlob = cloudBlobContainer.GetBlockBlobReference(filePath);
                 await cloudBlockBlob.UploadFromFileAsync(filePath);
-                uri = cloudBlockBlob.Uri.AbsoluteUri; 
+                uri = cloudBlockBlob.Uri.AbsoluteUri;
             }
 
             try
@@ -119,7 +121,7 @@ namespace Web.Controllers
             {
                 return Json(new { status = "error", message = "bad applicationId" });
             }
-            var fileInfo = new System.IO.FileInfo(@".\"+filePath);
+            var fileInfo = new System.IO.FileInfo(@".\" + filePath);
             fileInfo.Delete();
             return Json(new { filePath = uri });
         }

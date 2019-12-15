@@ -21,29 +21,12 @@ namespace Web.Controllers
         // GET: JobApplications
         public async Task<IActionResult> Index()
         {
-            var hR_ProjectContext = _context.JobApplications.Include(j => j.JobOffer).Include(j => j.User);
+            var hR_ProjectContext = _context.JobApplications
+                .Include(j => j.JobOffer)
+                .Include(j => j.User);
             return View(await hR_ProjectContext.ToListAsync());
         }
 
-        // GET: JobApplications/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var jobApplication = await _context.JobApplications
-                .Include(j => j.JobOffer)
-                .Include(j => j.User)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (jobApplication == null)
-            {
-                return NotFound();
-            }
-
-            return View(jobApplication);
-        }
 
         // GET: JobApplications/Create/offerId
         public IActionResult Create(int id)
@@ -129,28 +112,6 @@ namespace Web.Controllers
 
         // GET: JobApplications/Delete/5
         public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var jobApplication = await _context.JobApplications
-                .Include(j => j.JobOffer)
-                .Include(j => j.User)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (jobApplication == null)
-            {
-                return NotFound();
-            }
-
-            return View(jobApplication);
-        }
-
-        // POST: JobApplications/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var jobApplication = await _context.JobApplications.FindAsync(id);
             _context.JobApplications.Remove(jobApplication);
