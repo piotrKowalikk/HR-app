@@ -59,7 +59,7 @@ namespace Web.Controllers
             }
             //pora widok wystrugać
             //TODO: send default from user data.
-            ViewData["Header"] = "Aplpication for " + offer.Position + " in company " + offer.Company.Name;
+            ViewData["Header"] = "Application for " + offer.Position + " in company " + offer.Company.Name;
             return View(new JobApplication() { JobOfferId=id});
         }
 

@@ -37,6 +37,7 @@ namespace HR.DataAccess.Models
         [DisplayName("Enable phone contact")]
         public bool ContactAgreement { get; set; }
 
+        [DisplayName("CV")]
         public string CVurl { get; set; }
         public virtual ApplicationUser User { get; set; }
         public virtual JobOffer JobOffer { get; set; }

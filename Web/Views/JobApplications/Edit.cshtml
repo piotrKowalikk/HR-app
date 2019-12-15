@@ -4,12 +4,15 @@
     ViewData["Title"] = "Edit";
 }
 
+
+
+<div class="col-md-3">
+</div>
+<div class="col-md-6">
 <h4>Your application</h4>
-
-
-
-<h2 style="text-align:center">@ViewData["Header"]</h2>
-
+</div>
+<div class="col-md-3">
+</div>
 <hr />
 <div class="container">
     <div class="row">
@@ -19,12 +22,12 @@
             <form asp-action="Create" method="post">
                 <div class="form-group" hidden>
                     <label asp-for="JobOfferId" class="control-label"></label>
-                    <input  asp-for="JobOfferId" class="form-control" />
+                    <input asp-for="JobOfferId" class="form-control" />
                     <span asp-validation-for="JobOfferId" class="text-danger"></span>
-                </div>             
+                </div>
                 <div class="form-group" hidden>
                     <label asp-for="Id" class="control-label"></label>
-                    <input id="applicationId"  asp-for="Id" class="form-control" />
+                    <input id="applicationId" asp-for="Id" class="form-control" />
                 </div>
                 <div class="form-group">
                     <label asp-for="FirstName" class="control-label"></label>
@@ -62,8 +65,8 @@
             <form id="uploadForm" method="post" enctype="multipart/form-data" asp-controller="API" asp-action="PostCV">
                 <div class="form-group">
                     <label>Your CV: </label>
-                    <label id="fileName"></label>
 
+                    <a id="fileName" href="@Model.CVurl" class="btn-sm btn-primary">Download CV</a>
 
                     <input id="fileUploadInputId" type="file" name="file" />
                 </div>
@@ -81,9 +84,22 @@
 
     <script>
         $(document).ready(function () {
+            console.log($("#fileName").attr("href"))
+            if ($("#fileName").attr("href") == undefined)
+                $("#fileName").text("No CV uploaded");
+            else
+                $("#fileName").text("Download CV");
             $("#fileUploadInputId").change((e) => {
                 console.log('change')
                 $("#uploadForm").submit();
+            });
+            $("#fileName").change(e => {
+                if ($("#fileName").attr("href") == undefined)
+
+
+                    $("#fileName").text( "No CV uploaded");
+                else
+                    $("#fileName").text("Download CV");
             });
         });
 
@@ -96,6 +112,7 @@
                 var actionUrl = $(this).attr("action");  // get the form action value
                 console.log(actionUrl);
                 uploadFiles('fileUploadInputId', actionUrl)
+
 
             });
         });
@@ -118,7 +135,14 @@
                     contentType: false,
                     type: "POST",
                     success: function (data) {
-                        document.getElementById("fileName").innerText = data.filePath;
+                        //document.getElementById("fileName").innerText = data.filePath;
+                        $("#fileName").attr("href", data.filePath);
+                        if ($("#fileName").attr("href") == undefined)
+
+
+                                $("#fileName").text("No CV uploaded");
+                            else
+                                $("#fileName").text("Download CV");
                     },
                     error: function (e) {
                     }

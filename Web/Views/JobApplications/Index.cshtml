@@ -58,7 +58,10 @@
                 @Html.DisplayFor(modelItem => item.ContactAgreement)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CVurl)
+                @if (item.CVurl != "" && item.CVurl != null)
+                {
+                <a class="btn-sm btn-primary" href='@item.CVurl'>Download my application</a>
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.User.Id)

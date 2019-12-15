@@ -88,7 +88,6 @@ namespace Web.Controllers
         [HttpPost]
         public async Task<IActionResult > PostCV(string applicationId, List<IFormFile> files)
         {
-
             var filePath = Guid.NewGuid().ToString() + "--" + files[0].FileName;
             int.TryParse(applicationId, out int appId);
             JobApplication jobApp;
@@ -97,15 +96,13 @@ namespace Web.Controllers
                 await files[0].CopyToAsync(stream);
             }
 
-
-
             string storageConnectionString = options.Value.ConnectionParameters;
             string uri = "";
             CloudStorageAccount storageAccount;
             if (CloudStorageAccount.TryParse(storageConnectionString, out storageAccount))
             {
                 CloudBlobClient cloudBlobClient = storageAccount.CreateCloudBlobClient();
-                CloudBlobContainer cloudBlobContainer = cloudBlobClient.GetContainerReference("cvcontainer");
+                CloudBlobContainer cloudBlobContainer = cloudBlobClient.GetContainerReference(options.Value.ContainerName);
                 CloudBlockBlob cloudBlockBlob = cloudBlobContainer.GetBlockBlobReference(filePath);
                 await cloudBlockBlob.UploadFromFileAsync(filePath);
                 uri = cloudBlockBlob.Uri.AbsoluteUri; 
@@ -124,8 +121,9 @@ namespace Web.Controllers
             }
             var fileInfo = new System.IO.FileInfo(@".\"+filePath);
             fileInfo.Delete();
-            return Json(new { filePath = files[0].FileName });
+            return Json(new { filePath = uri });
         }
+
 
         [HttpPost]
         public JsonResult SetUserRole(int userId, int userRole)
