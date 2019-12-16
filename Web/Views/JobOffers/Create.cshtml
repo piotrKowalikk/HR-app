@@ -66,8 +66,8 @@
             <div class="form-group">
                 <div class="row">
                     <hr />
-                    <a asp-controller="JobOffers" asp-action="Index" class="btn btn-default">Back to List</a>
-                <input type="submit" value="Create" class="btn btn-primary" />
+                    <a name="BackToList" asp-controller="JobOffers" asp-action="Index" class="btn btn-default">Back to List</a>
+                <input name="Create" type="submit" value="Create" class="btn btn-primary" />
                 </div>
             </div>
             <div class="form-group">
@@ -96,9 +96,7 @@
             success: function (data) {
                 console.log(data)
                 data.forEach(x => {
-                    $('#companiesSelect').append(`<option value="${x.id}">
-                                       ${x.name}
-                                  </option>`);
+                    $('#companiesSelect').append(`<option value="${x.id}">${x.name}</option>`);
                 });
                 },
         });

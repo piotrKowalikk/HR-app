@@ -17,7 +17,6 @@ using WebApp_OpenIDConnect_DotNet;
 using WebApp_OpenIDConnect_DotNet.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
-using System.IO;
 using WebApp_OpenIDConnect_DotNet.Helpers;
 
 namespace Web.Controllers
@@ -25,10 +24,10 @@ namespace Web.Controllers
     [Route("API")]
     public class APIController : Controller
     {
-        AzureAdB2COptions AzureAdB2COptions;
-        IUserService<ApplicationUser> userService;
+        readonly AzureAdB2COptions AzureAdB2COptions;
+        readonly IUserService<ApplicationUser> userService;
         private readonly HR_ProjectContext _context;
-        IOptions<MyConfig> options;
+        readonly IOptions<MyConfig> options;
 
         public APIController(IOptions<AzureAdB2COptions> azureAdB2COptions,
             IUserService<ApplicationUser> uService,
@@ -58,7 +57,7 @@ namespace Web.Controllers
             totalRecord = allRecords.Count();
             totalPage = (totalRecord / pageSize) + ((totalRecord % pageSize) > 0 ? 1 : 0);
 
-            var record = allRecords.Skip((pageNo - 1) * pageSize).Take(pageSize).Select(x => new OfferViewModel() { Position = x.Position, Company = x.Company.Name, Id = x.Id, SalaryFrom=x.SalaryFrom, SalaryTo=x.SalaryTo }).ToList();
+            var record = allRecords.Skip((pageNo - 1) * pageSize).Take(pageSize).Select(x => new OfferViewModel() { Position = x.Position, Company = x.Company.Name, Id = x.Id, SalaryFrom = x.SalaryFrom, SalaryTo = x.SalaryTo }).ToList();
             PagingViewModel empData = new PagingViewModel
             {
                 Offers = record,
@@ -102,8 +101,8 @@ namespace Web.Controllers
 
             string storageConnectionString = options.Value.ConnectionParameters;
             string uri = "";
-            CloudStorageAccount storageAccount;
-            if (CloudStorageAccount.TryParse(storageConnectionString, out storageAccount))
+            
+            if (CloudStorageAccount.TryParse(storageConnectionString, out CloudStorageAccount  storageAccount))
             {
                 CloudBlobClient cloudBlobClient = storageAccount.CreateCloudBlobClient();
                 CloudBlobContainer cloudBlobContainer = cloudBlobClient.GetContainerReference(options.Value.ContainerName);

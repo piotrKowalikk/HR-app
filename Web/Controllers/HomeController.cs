@@ -17,7 +17,7 @@ namespace WebApp_OpenIDConnect_DotNet.Controllers
 {
     public class HomeController : Controller
     {
-        AzureAdB2COptions AzureAdB2COptions;
+        readonly AzureAdB2COptions AzureAdB2COptions;
         public HomeController(IOptions<AzureAdB2COptions> azureAdB2COptions)
         {
 

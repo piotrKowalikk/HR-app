@@ -152,7 +152,7 @@ namespace WebApp_OpenIDConnect_DotNet
                         .ExecuteAsync();
                     context.HandleCodeRedemption(result.AccessToken, result.IdToken);
                 }
-                catch (Exception ex)
+                catch 
                 {
                     //TODO: Handle
                     throw;

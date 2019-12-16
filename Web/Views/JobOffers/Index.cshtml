@@ -50,7 +50,7 @@
                 success: function (data) {
                     console.log(data)
                     var $table = $('<table/>').addClass('table table-striped table-bordered table-hover');
-                    var $header = $('<thead/>').html(`<tr><th >Position</th><th >Company</th ><th width="220" >Monthly salary range in PLN</th><th style="text-align:center ">    <a style="font-weight:normal" class="btn-sm btn-primary " href=@Url.Action("Create","JobOffers")>Create New</a></th>`);
+                    var $header = $('<thead/>').html(`<tr><th >Position</th><th >Company</th ><th width="220" >Monthly salary range in PLN</th><th style="text-align:center ">    <a style="font-weight:normal" class="btn-sm btn-primary " name="CreateNew" href=@Url.Action("Create","JobOffers")>Create New</a></th>`);
                     $table.append($header);
                     var $tbody = $('<tbody/>').html('');
                     $.each(data.offers, function (i, emp) {
