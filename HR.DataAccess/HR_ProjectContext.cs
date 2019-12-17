@@ -26,152 +26,39 @@ namespace HR.DataAccess.Models
         public virtual DbSet<JobApplication> JobApplications { get; set; }
         public virtual DbSet<Company> Companies { get; set; }
 
-        //protected override void OnModelCreating(ModelBuilder modelBuilder)
-        //{
-        //    modelBuilder.HasAnnotation("ProductVersion", "2.2.1-servicing-10028");
 
-        //    modelBuilder.Entity<JobOffer>(entity =>
-        //    {
-        //        entity.ToTable("APP_JOBOFFERS");
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Company>().HasData(
+                new Company() { Id = 1, Name = "Microsoft" },
+                new Company() { Id = 2, Name = "Google" },
+                new Company() { Id = 3, Name = "Netcompany" },
+                new Company() { Id = 4, Name = "ITBoom" },
+                new Company() { Id = 5, Name = "KMD" },
+                new Company() { Id = 6, Name = "Pwc" }
+                );
 
-        //        entity.Property(e => e.Id)
-        //            .HasColumnName("id")
-        //            .ValueGeneratedNever();
+            modelBuilder.Entity<JobOffer>().HasData(
+                new JobOffer() { Id = 1, CompanyId = 1, DateExpiration = DateTime.Now, SalaryFrom = 8000, SalaryTo = 10000, Position = ".Net Senior" },
+                new JobOffer() { Id = 2, CompanyId = 2, DateExpiration = DateTime.Now, SalaryFrom = 1000, SalaryTo = 2000, Position = ".Net Junior" },
+                new JobOffer() { Id = 3, CompanyId = 3, DateExpiration = DateTime.Now, SalaryFrom = 5000, SalaryTo = 7000, Position = ".Net Mid" }
+                );
 
-        //        entity.Property(e => e.Company)
-        //            .IsRequired()
-        //            .HasColumnName("company")
-        //            .HasMaxLength(30)
-        //            .IsUnicode(false);
+            modelBuilder.Entity<JobApplication>().HasData(
+                new JobApplication() { Id = 1, JobOfferId = 1, PhoneNumber = "123456789", ContactAgreement = true, ApplicationDate = DateTime.Now, EmailAddress = "rocky@nowak.com", UserId = 1 },
+                new JobApplication() { Id = 2, JobOfferId = 3, PhoneNumber = "123456789", ContactAgreement = false, ApplicationDate = DateTime.Now, FirstName = "Rocky", LastName = "Nowak", EmailAddress = "rocky@nowak.com", UserId = 1 }
+                );
 
-        //        entity.Property(e => e.DateExpiration)
-        //            .HasColumnName("dateExpiration")
-        //            .HasColumnType("date");
+            modelBuilder.Entity<Role>().HasData(
+                new Role() { Id = 1, RoleName = "User" },
+                new Role() { Id = 2, RoleName = "HRUser" },
+                new Role() { Id = 3, RoleName = "Admin" }
+                );
 
-        //        entity.Property(e => e.DatePosted)
-        //            .HasColumnName("datePosted")
-        //            .HasColumnType("date");
+            modelBuilder.Entity<ApplicationUser>().HasData(
+                new ApplicationUser() { Id = 1, Name = "Rocky", Lastname = "Nowak", Email = "rocky@nowak.com", RoleId = 1 }
+                );
+        }
 
-        //        entity.Property(e => e.Description)
-        //            .IsRequired()
-        //            .HasColumnName("description")
-        //            .HasColumnType("text");
-
-        //        entity.Property(e => e.IsActive).HasColumnName("isActive");
-
-        //        entity.Property(e => e.Position)
-        //            .IsRequired()
-        //            .HasColumnName("position")
-        //            .HasMaxLength(30)
-        //            .IsUnicode(false);
-
-        //        entity.Property(e => e.SalaryFrom).HasColumnName("salaryFrom");
-
-        //        entity.Property(e => e.SalaryTo).HasColumnName("salaryTo");
-
-        //        entity.Property(e => e.UserApply).HasColumnName("userApply");
-
-        //        entity.Property(e => e.UserPosting).HasColumnName("userPosting");
-
-
-        //    });
-
-        //    modelBuilder.Entity<ApplicationUser>(entity =>
-        //    {
-        //        entity.ToTable("APP_USERS");
-
-        //        entity.Property(e => e.Id)
-        //            .HasColumnName("id")
-        //            .ValueGeneratedNever();
-
-        //        entity.Property(e => e.Email)
-        //            .IsRequired()
-        //            .HasColumnName("email")
-        //            .HasMaxLength(30);
-
-        //        entity.Property(e => e.Lastname)
-        //            .IsRequired()
-        //            .HasColumnName("lastname")
-        //            .HasMaxLength(20);
-
-        //        entity.Property(e => e.Name)
-        //            .IsRequired()
-        //            .HasColumnName("name")
-        //            .HasMaxLength(20);
-
-        //        entity.Property(e => e.RoleId).HasColumnName("roleId");
-
-        //        entity.HasOne(d => d.Role)
-        //            .WithMany(p => p.AppUsers)
-        //            .HasForeignKey(d => d.RoleId)
-        //            .OnDelete(DeleteBehavior.ClientSetNull)
-        //            .HasConstraintName("FK_APP_USERS_DCT_ROLES");
-        //    });
-
-        //    modelBuilder.Entity<Role>(entity =>
-        //    {
-        //        entity.ToTable("DCT_ROLES");
-
-        //        entity.Property(e => e.Id)
-        //            .HasColumnName("id")
-        //            .ValueGeneratedNever();
-
-        //        entity.Property(e => e.RoleName)
-        //            .IsRequired()
-        //            .HasColumnName("roleName")
-        //            .HasMaxLength(20);
-        //    });
-
-        //    modelBuilder.Entity<Company>(entity =>
-        //    {
-        //        entity.ToTable("APP_COMPANIES");
-
-        //        //entity.Property(e => e.Id)
-        //        //    .HasColumnName("id")
-        //        //    .ValueGeneratedNever();
-
-        //        //entity.Property(e => e.Name)
-        //        //    .IsRequired()
-        //        //    .HasColumnName("Name")
-        //        //    .HasMaxLength(40);
-        //    });
-
-        //    modelBuilder.Entity<JobApplication>(entity =>
-        //    {
-        //        entity.ToTable("APP_JOBAPPLICATIONS");
-
-        //        //entity.Property(e => e.Id)
-        //        //    .HasColumnName("id")
-        //        //    .ValueGeneratedNever();
-
-        //        //entity.Property(e => e.ContactAgreement)
-        //        //    .IsRequired()
-        //        //    .HasColumnName("ContactAgreement")
-        //        //    .HasMaxLength(30);
-
-        //        //entity.Property(e => e.LastName)
-        //        //    .IsRequired()
-        //        //    .HasColumnName("lastname")
-        //        //    .HasMaxLength(20);
-
-        //        //entity.Property(e => e.FirstName)
-        //        //    .IsRequired()
-        //        //    .HasColumnName("firstname")
-        //        //    .HasMaxLength(20);
-
-        //        //entity.Property(e => e.CVurl).HasColumnName("roleId")
-        //        //    .IsRequired()
-        //        //    .HasColumnName("CVurl");
-
-        //        //entity.Property(e => e.EmailAddress).HasColumnName("email")
-        //        //    .IsRequired()
-        //        //    .HasColumnName("email");
-
-        //        //entity.Property(e => e.JobOfferId).HasColumnName("email")
-        //        //    .IsRequired()
-        //        //    .HasColumnName("email");
-
-        //    });
-        //}
     }
 }
