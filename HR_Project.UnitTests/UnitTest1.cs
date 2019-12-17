@@ -12,7 +12,7 @@ namespace HR_Project.UnitTests
     public class UnitTest1
     {
         [Fact]
-        public async Task GetCompanies_NotThrowingErrors()
+        public void GetCompanies_NotThrowingErrors()
         {
             //WebRequest companiesCall = WebRequest.Create("https://localhost:5000/api/GetCompanies");
             //HttpWebResponse response = (HttpWebResponse)companiesCall.GetResponse();
